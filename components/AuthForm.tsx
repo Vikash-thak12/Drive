@@ -33,12 +33,12 @@ const authformSchema = (formtype: FormType) => {
 }
 
 
-const AuthForm = ({ type }: { type: FormType}) => {
+const AuthForm = ({ type }: { type: FormType }) => {
 
     const [isLoading, setIsLoading] = useState(false)
 
     // TODO: Note to make the accountId null after done with the otpMOdal
-    const [accountId, setAccountId] = useState(null)  
+    const [accountId, setAccountId] = useState(null)
     const [errorMessage, setErrorMessage] = useState("")
 
     // 1. Define your form.
@@ -63,7 +63,7 @@ const AuthForm = ({ type }: { type: FormType}) => {
             })
 
             setAccountId(user.accountId);
-            
+
         } catch (error) {
             setErrorMessage("Falied to create an Account")
         } finally {
@@ -73,7 +73,7 @@ const AuthForm = ({ type }: { type: FormType}) => {
 
     useEffect(() => {
         console.log("ACcount id", accountId)
-    },[])
+    }, [])
 
 
     return (
@@ -117,12 +117,16 @@ const AuthForm = ({ type }: { type: FormType}) => {
                         )}
                     />
                     <Button type="submit" className="form-submit-button" disabled={isLoading}>
-                    {type == "sign-in" ? "Sign-In" : "Sign-Up"}
-                    <p>
-                        {isLoading && (
-                            <Image src={"/assets/icons/loader.svg"} alt="Loader" width={24} height={24} className="ml-5 animate-spin" />
-                        )}
-                    </p>
+                        
+                        <p>
+                            {
+                                isLoading ? (
+                                    <Image src={"/assets/icons/loader.svg"} alt="Loader" width={24} height={24} className="ml-5 animate-spin" />
+                                ): (
+                                    type == "sign-in" ? "Sign-In" : "Sign-Up"
+                                )
+                            }
+                        </p>
                     </Button>
                     <div className="flex items-center justify-center">
                         {type == "sign-in" ? (
