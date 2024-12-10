@@ -20,6 +20,7 @@ import Link from "next/link"
 import { useState } from "react"
 import Image from "next/image"
 import { createAccount } from "@/lib/actions/user.action"
+import OtpModal from "./OtpModal"
 
 
 type FormType = "sign-up" | "sign-in";
@@ -131,6 +132,8 @@ const AuthForm = ({ type }: { type: FormType}) => {
             </Form>
 
             {/* OTP Verification */}
+
+            {true && <OtpModal />}
         </>
     )
 }
