@@ -2,8 +2,8 @@ import React from 'react'
 
 const HomePage = () => {
   return (
-    <div>
-      welcome to the homepage
+    <div className='flex-center h-screen'>
+      <h1 className='text-3xl font-bold text-brand'>Welcome to the home page</h1>
     </div>
   )
 }
