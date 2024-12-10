@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import { createAccount } from "@/lib/actions/user.action"
 import OtpModal from "./OtpModal"
@@ -36,9 +36,9 @@ const authformSchema = (formtype: FormType) => {
 const AuthForm = ({ type }: { type: FormType}) => {
 
     const [isLoading, setIsLoading] = useState(false)
-    
+
     // TODO: Note to make the accountId null after done with the otpMOdal
-    const [accountId, setAccountId] = useState("abc")  
+    const [accountId, setAccountId] = useState(null)  
     const [errorMessage, setErrorMessage] = useState("")
 
     // 1. Define your form.
@@ -70,6 +70,10 @@ const AuthForm = ({ type }: { type: FormType}) => {
             setIsLoading(false)
         }
     }
+
+    useEffect(() => {
+        console.log("ACcount id", accountId)
+    },[])
 
 
     return (
@@ -134,8 +138,7 @@ const AuthForm = ({ type }: { type: FormType}) => {
             </Form>
 
             {/* OTP Verification */}
-
-            {true && <OtpModal email={form.getValues("email")} accountId={accountId} />}
+            {accountId && <OtpModal email={form.getValues("email")} accountId={accountId} />}
         </>
     )
 }

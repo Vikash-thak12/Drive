@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+"use client"
 import {
     AlertDialog,
     AlertDialogAction,
@@ -19,6 +20,8 @@ import {
 import Image from "next/image"
 import React, { useState } from "react"
 import { Button } from "./ui/button"
+import { sendEmailOTP, verifySecret } from "@/lib/actions/user.action"
+import { useRouter } from "next/navigation"
 
 
 
@@ -28,11 +31,15 @@ const OtpModal = ({ email, accountId }: { email: string, accountId: string }) =>
     const [password, setPassword] = useState("")
     const [isLoading, setIsLoading] = useState(false)
 
+    const router = useRouter();
+
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
         setIsLoading(true)
         try {
             // Call API To Verify OTP
+            const sessionId = await verifySecret({ accountId, password});
+            if(sessionId) router.push("/")
         } catch (error) {
             console.log("Failed to verify OTP", error)
         }
@@ -41,6 +48,7 @@ const OtpModal = ({ email, accountId }: { email: string, accountId: string }) =>
 
     const handleResetOtp = async () => {
         // Call API To resend OTP
+        await sendEmailOTP({ email });
     }
 
     return (
