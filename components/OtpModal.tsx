@@ -1,11 +1,111 @@
-import React from 'react'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
 
-const OtpModal = () => {
-  return (
-    <div>
-      OTPModal
-    </div>
-  )
+
+import {
+    InputOTP,
+    InputOTPGroup,
+    InputOTPSlot,
+} from "@/components/ui/input-otp"
+import Image from "next/image"
+import React, { useState } from "react"
+import { Button } from "./ui/button"
+
+
+
+const OtpModal = ({ email, accountId }: { email: string, accountId: string }) => {
+
+    const [isOpen, setIsOpen] = useState(true)
+    const [password, setPassword] = useState("")
+    const [isLoading, setIsLoading] = useState(false)
+
+    const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault()
+        setIsLoading(true)
+        try {
+            // Call API To Verify OTP
+        } catch (error) {
+            console.log("Failed to verify OTP", error)
+        }
+        setIsLoading(false)
+    }
+
+    const handleResetOtp = async () => {
+        // Call API To resend OTP
+    }
+
+    return (
+        <>
+            <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+                {/* <AlertDialogTrigger>Open</AlertDialogTrigger> */}
+                <AlertDialogContent className="shad-alert-dialog">
+                    <AlertDialogHeader className="relative flex justify-center">
+                        <AlertDialogTitle className="h2 text-center">
+
+                            Enter the OTP
+                            <Image
+                                src={"/assets/icons/close-dark.svg"}
+                                alt="close"
+                                width={32}
+                                height={32}
+                                onClick={() => setIsOpen(false)}
+                                className="absolute -top-8 -right-2 md:-top-7 md:-right-5 cursor-pointer p-1 hover:bg-gray-100 rounded-full"
+                            />
+
+                        </AlertDialogTitle>
+                        <AlertDialogDescription className="text-center text-light-100">
+                            We&apos;have sent a code to <span className="text-brand ml-1">{email}</span>
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+
+                    {/* for otp boxes */}
+                    <InputOTP maxLength={6} value={password} onChange={setPassword}>
+                        <InputOTPGroup className="shad-otp">
+                            <InputOTPSlot index={0} className="shad-otp-slot" />
+                            <InputOTPSlot index={1} className="shad-otp-slot" />
+                            <InputOTPSlot index={2} className="shad-otp-slot" />
+                            <InputOTPSlot index={3} className="shad-otp-slot" />
+                            <InputOTPSlot index={4} className="shad-otp-slot" />
+                            <InputOTPSlot index={5} className="shad-otp-slot" />
+                        </InputOTPGroup>
+                    </InputOTP>
+
+                    <AlertDialogFooter>
+                        <div className="flex flex-col w-full gap-4">
+                            <AlertDialogAction onClick={handleSubmit} className="shad-submit-btn h-12" type="button">
+                                {
+                                    isLoading ? (
+                                        <Image src={"/assets/icons/loader.svg"} alt="loader" width={24} height={24} className="animate-spin" />
+                                    ) : "Submit"
+                                }
+                            </AlertDialogAction>
+                            <div className="flex items-center justify-center">
+                                Did&apos;t get a code ?
+                                <Button
+                                    type="button"
+                                    variant="link"
+                                    className="text-brand"
+                                    onClick={handleResetOtp}
+                                >
+                                    Click to resend
+                                </Button>
+                            </div>
+                        </div>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+
+        </>
+    )
 }
 
 export default OtpModal

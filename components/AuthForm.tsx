@@ -36,7 +36,9 @@ const authformSchema = (formtype: FormType) => {
 const AuthForm = ({ type }: { type: FormType}) => {
 
     const [isLoading, setIsLoading] = useState(false)
-    const [accountId, setAccountId] = useState(null)
+    
+    // TODO: Note to make the accountId null after done with the otpMOdal
+    const [accountId, setAccountId] = useState("abc")  
     const [errorMessage, setErrorMessage] = useState("")
 
     // 1. Define your form.
@@ -133,7 +135,7 @@ const AuthForm = ({ type }: { type: FormType}) => {
 
             {/* OTP Verification */}
 
-            {true && <OtpModal />}
+            {true && <OtpModal email={form.getValues("email")} accountId={accountId} />}
         </>
     )
 }
