@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import Image from "next/image"
 import { createAccount, signInUser } from "@/lib/actions/user.action"
 import OtpModal from "./OtpModal"
@@ -59,10 +59,14 @@ const AuthForm = ({ type }: { type: FormType }) => {
             // here creating account for a user providing name and email 
             const user = 
             type == 'sign-up'
+
+            // if the type is sign-up then create user 
             ? await createAccount({
                 fullName: values.fullName || '',
                 email: values.email
             }) 
+
+            // else simpley login using otp 
             : await signInUser({ email: values.email})
 
             // here in the accountId i'm setting the value of user's accountId from appwrite which is like ##67594e20003cf6e90a19 refers to the specific user
