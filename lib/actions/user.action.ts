@@ -4,6 +4,7 @@ import { createAdminClient } from "../appwrite";
 import { appwriteConfig } from "../appwrite/config";
 import { parseStringify } from "../utils";
 import { cookies } from "next/headers";
+import { avatarPlaceholderUrl } from "@/constants";
 
 const getUserByEmail = async (email: string) => {
     const { databases } = await createAdminClient();
@@ -50,7 +51,7 @@ export const createAccount = async ({ fullName, email }: { fullName: string, ema
             {
                 fullName,
                 email,
-                avatar: "https://imgs.search.brave.com/vSSOwNShrPqVG8xT5hBbfFXN2UTJPSOtNEguDzGTta8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9yYXcu/Z2l0aHVidXNlcmNv/bnRlbnQuY29tL0Fz/aHdpbnZhbGVudG8v/Y2FydG9vbi1hdmF0/YXIvbWFzdGVyL2xp/Yi9pbWFnZXMvbWFs/ZS84Ni5wbmc",
+                avatar: avatarPlaceholderUrl,
                 accountId   // here this accountId is where otp is send 
             }
         )
