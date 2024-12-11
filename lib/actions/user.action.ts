@@ -108,3 +108,19 @@ export const signOutUser = async () => {
         redirect("/sign-in")
     }
 }
+
+export const signInUser = async ({ email }: { email: string}) => {
+    try {
+        const existingUser = await getUserByEmail(email);
+
+        // if there is user then sending an otp to that email
+        if(existingUser){
+            await sendEmailOTP({ email })
+            return parseStringify({ accountId: existingUser.accountId})
+        }
+
+        return parseStringify({ accountId: null, message: "User not found"})
+    } catch (error) {
+        console.log("Error while signing user", error)
+    }
+}
