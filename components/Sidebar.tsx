@@ -39,7 +39,7 @@ const Sidebar = ({ fullName, email, avatar}: Props) => {
         <Image src={avatar} alt='logo' width={40} height={40} className='rounded-full' />
         <div className='hidden lg:block'>
           <p className='font-semibold capitalize'>{fullName}</p>
-          <p className='  overflow-hidden w-full'>{email}</p>
+          <p className='caption'>{email}</p>
         </div>
       </div>
     </aside>
