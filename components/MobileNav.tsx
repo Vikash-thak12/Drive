@@ -5,7 +5,6 @@ import React, { useState } from 'react'
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -17,6 +16,7 @@ import { cn } from '@/lib/utils'
 import FileUpload from './FileUpload'
 import { Button } from './ui/button'
 import { Separator } from './ui/separator'
+import { signOutUser } from '@/lib/actions/user.action'
 
 interface Props {
   fullName: string,
@@ -72,7 +72,7 @@ const MobileNav = ({ fullName, email, avatar }: Props) => {
             <FileUpload />
             <div>
               {/* TODO: Logout Functionality to be implemented here  */}
-              <Button className='mobile-sign-out-button mt-5' type='submit' onClick={() => {}}>
+              <Button className='mobile-sign-out-button mt-5' type='submit' onClick={async () => await signOutUser()}>
                 <Image src={"/assets/icons/logout.svg"} alt='Logout' width={24} height={24} className='w-6' />
                 Logout
               </Button>

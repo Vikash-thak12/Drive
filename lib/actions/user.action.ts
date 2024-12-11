@@ -5,6 +5,7 @@ import { appwriteConfig } from "../appwrite/config";
 import { parseStringify } from "../utils";
 import { cookies } from "next/headers";
 import { avatarPlaceholderUrl } from "@/constants";
+import { redirect } from "next/navigation";
 
 const getUserByEmail = async (email: string) => {
     const { databases } = await createAdminClient();
@@ -92,5 +93,18 @@ export const getCurrentUser = async () => {
         return parseStringify(user.documents[0])
     } catch (error) {
         console.log("Error in getCurrentUser", error)
+    }
+}
+
+
+export const signOutUser = async () => {
+    const { account } = await createSessionClient();
+    try {
+        await account.deleteSession("current");
+        (await cookies()).delete("appwrite-session");
+    } catch (error) {
+        console.log("Error in signoutUser", error)
+    } finally {
+        redirect("/sign-in")
     }
 }
