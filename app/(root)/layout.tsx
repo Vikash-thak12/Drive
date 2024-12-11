@@ -1,12 +1,15 @@
 import Header from '@/components/Header'
 import MobileNav from '@/components/MobileNav'
 import Sidebar from '@/components/Sidebar'
+import { getCurrentUser } from '@/lib/actions/user.action'
 import React from 'react'
 
-const layout = ({ children}: { children: React.ReactNode}) => {
+const layout = async ({ children}: { children: React.ReactNode}) => {
+    const currentUser = await getCurrentUser()
+
   return (
     <main className='flex h-screen'>
-        <Sidebar />
+        <Sidebar {...currentUser} />
       <section className='flex flex-1 flex-col h-full'>
         <MobileNav />
         <Header />

@@ -1,12 +1,18 @@
 'use client'
-import { avatarPlaceholderUrl, navItems } from '@/constants'
+import { navItems } from '@/constants'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React from 'react'
 
-const Sidebar = () => {
+interface Props {
+  fullName: string, 
+  email: string, 
+  avatar: string
+}
+
+const Sidebar = ({ fullName, email, avatar}: Props) => {
 
   const pathname = usePathname();
   return (
@@ -30,10 +36,10 @@ const Sidebar = () => {
       </nav>
       <Image src={"/assets/images/files-2.png"} alt='logo' width={300} height={300} />
       <div className='sidebar-user-info'>
-        <Image src={avatarPlaceholderUrl} alt='logo' width={40} height={40} className='rounded-full' />
+        <Image src={avatar} alt='logo' width={40} height={40} className='rounded-full' />
         <div className='hidden lg:block'>
-          <p className='font-semibold capitalize'>Vikash Thakur</p>
-          <p className='font-semibold'>vikash@gmail.com</p>
+          <p className='font-semibold capitalize'>{fullName}</p>
+          <p className='  overflow-hidden w-full'>{email}</p>
         </div>
       </div>
     </aside>

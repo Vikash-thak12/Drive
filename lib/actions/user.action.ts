@@ -1,6 +1,6 @@
 'use server'
 import { ID, Query } from "node-appwrite";
-import { createAdminClient } from "../appwrite";
+import { createAdminClient, createSessionClient } from "../appwrite";
 import { appwriteConfig } from "../appwrite/config";
 import { parseStringify } from "../utils";
 import { cookies } from "next/headers";
@@ -80,16 +80,13 @@ export const verifySecret = async ({ accountId, password}: { accountId: string, 
 
 export const getCurrentUser = async () => {
     try {
-        const { databases, account} = await createAdminClient();
+        const { databases, account} = await createSessionClient();
         const result = await account.get();
         const user = await databases.listDocuments(
             appwriteConfig.databaseId, 
             appwriteConfig.usersCollectionId,
             [Query.equal("accountId", result.$id)]
         )
-        console.log("Result is", result)
-        console.log("User is", user)
-
 
         if(user.total <= 0) return null;
         return parseStringify(user.documents[0])
