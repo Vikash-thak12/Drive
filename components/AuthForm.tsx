@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button"
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -37,11 +36,10 @@ const AuthForm = ({ type }: { type: FormType }) => {
 
     const [isLoading, setIsLoading] = useState(false)
 
-    // TODO: Note to make the accountId null after done with the otpMOdal
     const [accountId, setAccountId] = useState(null)
     const [errorMessage, setErrorMessage] = useState("")
 
-    // 1. Define your form.
+    // 1. Defining the form.
     const formSchema = authformSchema(type)
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -57,11 +55,14 @@ const AuthForm = ({ type }: { type: FormType }) => {
         setIsLoading(true);
         setErrorMessage("")
         try {
+
+            // here creating account for a user providing name and email 
             const user = await createAccount({
                 fullName: values.fullName || '',
                 email: values.email
             })
 
+            // here in the accountId i'm setting the value of user's accountId from appwrite which is like ##67594e20003cf6e90a19 refers to the specific user
             setAccountId(user.accountId);
 
         } catch (error) {
@@ -70,11 +71,6 @@ const AuthForm = ({ type }: { type: FormType }) => {
             setIsLoading(false)
         }
     }
-
-    useEffect(() => {
-        console.log("ACcount id", accountId)
-    }, [])
-
 
     return (
         <>

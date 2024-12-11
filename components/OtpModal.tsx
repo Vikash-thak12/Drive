@@ -3,7 +3,6 @@
 import {
     AlertDialog,
     AlertDialogAction,
-    AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
     AlertDialogFooter,
@@ -31,8 +30,13 @@ const OtpModal = ({ email, accountId }: { email: string, accountId: string }) =>
     const [password, setPassword] = useState("")
     const [isLoading, setIsLoading] = useState(false)
 
+    // console.log("The accountId", accountId)
+    // console.log("The email", email)
+
     const router = useRouter();
 
+
+    // this function is for verifying the otp 
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
         setIsLoading(true)
@@ -46,6 +50,8 @@ const OtpModal = ({ email, accountId }: { email: string, accountId: string }) =>
         setIsLoading(false)
     }
 
+
+    // Resending the otp in case didn't receive 
     const handleResetOtp = async () => {
         // Call API To resend OTP
         await sendEmailOTP({ email });
