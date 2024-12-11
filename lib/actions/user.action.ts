@@ -77,3 +77,23 @@ export const verifySecret = async ({ accountId, password}: { accountId: string, 
         console.log("Error verifying otp", error)
     }
 }
+
+export const getCurrentUser = async () => {
+    try {
+        const { databases, account} = await createAdminClient();
+        const result = await account.get();
+        const user = await databases.listDocuments(
+            appwriteConfig.databaseId, 
+            appwriteConfig.usersCollectionId,
+            [Query.equal("accountId", result.$id)]
+        )
+        console.log("Result is", result)
+        console.log("User is", user)
+
+
+        if(user.total <= 0) return null;
+        return parseStringify(user.documents[0])
+    } catch (error) {
+        console.log("Error in getCurrentUser", error)
+    }
+}
