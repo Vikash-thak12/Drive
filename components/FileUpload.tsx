@@ -45,6 +45,8 @@ const FileUpload = ({ ownerId, accountId, className }: FileProps) => {
 
       }
 
+
+      // calling the uploadfile for uploading the actual files 
       return uploadFile({ file, ownerId, accountId, path}).then(
         (uploadFile) => {
           if(uploadFile) {
