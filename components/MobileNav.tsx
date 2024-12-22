@@ -19,13 +19,15 @@ import { Separator } from './ui/separator'
 import { signOutUser } from '@/lib/actions/user.action'
 
 interface Props {
+  id: string,
+  accountId: string,
   fullName: string,
   email: string,
   avatar: string
 }
 
 
-const MobileNav = ({ fullName, email, avatar }: Props) => {
+const MobileNav = ({ id, accountId, fullName, email, avatar }: Props) => {
 
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname();
@@ -69,7 +71,7 @@ const MobileNav = ({ fullName, email, avatar }: Props) => {
             <Separator />
 
 
-            <FileUpload />
+            <FileUpload ownerId={id} accountId={accountId}  />
             <div>
               {/* TODO: Logout Functionality to be implemented here  */}
               <Button className='mobile-sign-out-button mt-5' type='submit' onClick={async () => await signOutUser()}>

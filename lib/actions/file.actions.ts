@@ -44,7 +44,7 @@ export const uploadFile = async ({ file, ownerId, accountId, path }: UploadProps
 
         const newFile = await databases.createDocument(
             appwriteConfig.databaseId,
-            appwriteConfig.bucketId,
+            appwriteConfig.filesCollectionId,
             ID.unique(),
             fileDocument
         )
