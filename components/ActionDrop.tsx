@@ -1,6 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
-import { Dialog } from "@/components/ui/dialog"
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+  } from "@/components/ui/dialog"
+  
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -30,6 +38,20 @@ const ActionDrop = ({ file }: { file: Models.Document }) => {
     const [isModelOpen, setIsModelOpen] = useState(false)
     const [isDropdownOpen, setIsDropDownOpen] = useState(false)
     const [action, setAction] = useState<ActionType | null>(null)
+
+    const renderDialogContent = () => {
+        return (
+            <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Are you absolutely sure?</DialogTitle>
+              <DialogDescription>
+                This action cannot be undone. This will permanently delete your account
+                and remove your data from our servers.
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        )
+    }
 
     return (
         <Dialog open={isModelOpen} onOpenChange={setIsModelOpen}>
@@ -73,6 +95,7 @@ const ActionDrop = ({ file }: { file: Models.Document }) => {
                 </DropdownMenuContent>
             </DropdownMenu>
 
+            { renderDialogContent() }
         </Dialog>
 
     )
