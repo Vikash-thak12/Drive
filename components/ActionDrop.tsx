@@ -59,7 +59,9 @@ const ActionDrop = ({ file }: { file: Models.Document }) => {
                             Cancel
                         </Button>
                         <Button>
-                            Submit
+                            <p className="capitalize">
+                                {value}
+                            </p>
                         </Button>
                     </DialogFooter>
                 )
