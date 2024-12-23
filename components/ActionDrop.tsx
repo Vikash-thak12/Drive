@@ -54,7 +54,7 @@ const ActionDrop = ({ file }: { file: Models.Document }) => {
 
     // This will trigger when submit button is clicked to perform necesary action
     const handleAction = () => {
-
+        
     }
 
     const renderDialogContent = () => {
