@@ -3,10 +3,9 @@
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
+    DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
   } from "@/components/ui/dialog"
   
 import {
@@ -24,6 +23,7 @@ import Link from "next/link"
 import { Models } from "node-appwrite"
 import { useState } from "react"
 import { Input } from "./ui/input"
+import { Button } from "./ui/button"
 
 
 interface ActionType {
@@ -52,6 +52,18 @@ const ActionDrop = ({ file }: { file: Models.Document }) => {
                 value === "rename" && <Input type="text" value={name} onChange={(e) => setName(e.target.value)} />
               }
             </DialogHeader>
+            {
+                ['rename', "share", 'delete'].includes(value) && (
+                    <DialogFooter className="flex flex-col gap-3 md:flex-row">
+                        <Button>
+                            Cancel
+                        </Button>
+                        <Button>
+                            Submit
+                        </Button>
+                    </DialogFooter>
+                )
+            }
           </DialogContent>
         )
     }
