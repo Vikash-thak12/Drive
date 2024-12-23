@@ -21,6 +21,13 @@ interface UploadProps {
     path: string
 }
 
+interface RenameFileProps {
+    fileId: string, 
+    name: string, 
+    extension: string, 
+    path: string
+}
+
 export const uploadFile = async ({ file, ownerId, accountId, path }: UploadProps) => {
     const { storage, databases } = await createAdminClient();
     try {
@@ -91,5 +98,27 @@ export const getFiles = async () => {
         return parseStringify(files);
     } catch (error) {
         handleError(error, "Not able to find the files")
+    }
+}
+
+
+// this function is for renaming the file name 
+export const renameFile = async ({ fileId, name, extension, path}: RenameFileProps) => {
+    const { databases } = await createAdminClient();
+    try {
+        const newName = `${name}.${extension}`
+        const updatedName = await databases.updateDocument(
+            appwriteConfig.databaseId, 
+            appwriteConfig.filesCollectionId, 
+            fileId,
+            {
+                name: newName
+            }
+        )
+
+        revalidatePath(path)
+        return parseStringify(updatedName)
+    } catch (error) {
+        handleError(error, "Failed to rename file")
     }
 }

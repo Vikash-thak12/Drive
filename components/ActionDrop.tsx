@@ -24,6 +24,8 @@ import { Models } from "node-appwrite"
 import { useState } from "react"
 import { Input } from "./ui/input"
 import { Button } from "./ui/button"
+import { renameFile } from "@/lib/actions/file.actions"
+import { usePathname } from "next/navigation"
 
 
 interface ActionType {
@@ -42,6 +44,8 @@ const ActionDrop = ({ file }: { file: Models.Document }) => {
     const [name, setName] = useState(file.name)
     const [isLoading, setIsLoading] = useState(false)
 
+    const path = usePathname();
+
 
     // This one is for cancel whatever is going on cancle button
     const closeAllModals = () => {
@@ -53,8 +57,20 @@ const ActionDrop = ({ file }: { file: Models.Document }) => {
     }
 
     // This will trigger when submit button is clicked to perform necesary action
-    const handleAction = () => {
+    const handleAction = async () => {
+        if(!action) return; 
+        setIsLoading(true)
 
+        let success = false;
+        const actions = {
+            rename: () => renameFile({fileId: file.$id, name, extension: file.extension, path}),
+            share: () => console.log("share"),
+            delete: () => console.log("delete")
+        };
+
+        success = await actions[action.value as keyof typeof actions]()
+        if(success) closeAllModals()
+        setIsLoading(false)
     }
 
     const renderDialogContent = () => {
