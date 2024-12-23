@@ -26,6 +26,7 @@ import { Input } from "./ui/input"
 import { Button } from "./ui/button"
 import { renameFile } from "@/lib/actions/file.actions"
 import { usePathname } from "next/navigation"
+import { FileDetails } from "./ActionModalContent"
 
 
 interface ActionType {
@@ -82,6 +83,9 @@ const ActionDrop = ({ file }: { file: Models.Document }) => {
                     <DialogTitle className="text-center capitalize text-light-100">{label}</DialogTitle>
                     {
                         value === "rename" && <Input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+                    }
+                    {
+                        value === "details" && <FileDetails file={file} />
                     }
                 </DialogHeader>
                 {
