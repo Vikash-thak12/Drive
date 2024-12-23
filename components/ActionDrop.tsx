@@ -55,7 +55,8 @@ const ActionDrop = ({ file }: { file: Models.Document }) => {
                             >
                                 {
                                     item.value === "download" ? (
-                                        <Link href={constructDownloadUrl(file.bucketFileId)} className="flex items-center gap-5">
+                                        // note here i've changed the bucketFileId to bucketField
+                                        <Link href={constructDownloadUrl(file.bucketField)} download={file.name} className="flex items-center gap-5">
                                             <Image src={item.icon} alt={file.value} width={30} height={30} />
                                             {item.label}
                                         </Link>
