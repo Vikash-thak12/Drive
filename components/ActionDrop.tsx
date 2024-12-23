@@ -6,8 +6,8 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-  } from "@/components/ui/dialog"
-  
+} from "@/components/ui/dialog"
+
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -40,33 +40,53 @@ const ActionDrop = ({ file }: { file: Models.Document }) => {
     const [isDropdownOpen, setIsDropDownOpen] = useState(false)
     const [action, setAction] = useState<ActionType | null>(null)
     const [name, setName] = useState(file.name)
+    const [isLoading, setIsLoading] = useState(false)
+
+
+    // This one is for cancel whatever is going on cancle button
+    const closeAllModals = () => {
+        setIsModelOpen(false)
+        setIsDropDownOpen(false)
+        setAction(null)
+        setName(file.name)
+        // setEmail later will be done 
+    }
+
+    // This will trigger when submit button is clicked to perform necesary action
+    const handleAction = () => {
+
+    }
 
     const renderDialogContent = () => {
-        if(!action) return null;
-        const { label, value} = action;
+        if (!action) return null;
+        const { label, value } = action;
         return (
             <DialogContent className="shad-dialog button">
-            <DialogHeader className="flex flex-col gap-3">
-              <DialogTitle className="text-center capitalize text-light-100">{label}</DialogTitle>
-              {
-                value === "rename" && <Input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-              }
-            </DialogHeader>
-            {
-                ['rename', "share", 'delete'].includes(value) && (
-                    <DialogFooter className="flex flex-col gap-3 md:flex-row">
-                        <Button>
-                            Cancel
-                        </Button>
-                        <Button>
-                            <p className="capitalize">
-                                {value}
-                            </p>
-                        </Button>
-                    </DialogFooter>
-                )
-            }
-          </DialogContent>
+                <DialogHeader className="flex flex-col gap-3">
+                    <DialogTitle className="text-center capitalize text-light-100">{label}</DialogTitle>
+                    {
+                        value === "rename" && <Input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+                    }
+                </DialogHeader>
+                {
+                    ['rename', "share", 'delete'].includes(value) && (
+                        <DialogFooter className="flex flex-col gap-3 md:flex-row">
+                            <Button onClick={closeAllModals}>
+                                Cancel
+                            </Button>
+                            <Button onClick={handleAction}>
+                                {isLoading ? (
+                                    <Image src={"/assets/icons/loader.svg"} alt="Loader" width={24} height={24} className="animate-spin" />
+                                ) : (
+                                    <p className="capitalize">
+                                        {value}
+                                    </p>
+                                )}
+                            </Button>
+                        </DialogFooter>
+                    )
+                }
+            </DialogContent>
         )
     }
 
@@ -112,7 +132,7 @@ const ActionDrop = ({ file }: { file: Models.Document }) => {
                 </DropdownMenuContent>
             </DropdownMenu>
 
-            { renderDialogContent() }
+            {renderDialogContent()}
         </Dialog>
 
     )
