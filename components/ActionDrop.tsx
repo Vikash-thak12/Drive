@@ -23,6 +23,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Models } from "node-appwrite"
 import { useState } from "react"
+import { Input } from "./ui/input"
 
 
 interface ActionType {
@@ -38,16 +39,18 @@ const ActionDrop = ({ file }: { file: Models.Document }) => {
     const [isModelOpen, setIsModelOpen] = useState(false)
     const [isDropdownOpen, setIsDropDownOpen] = useState(false)
     const [action, setAction] = useState<ActionType | null>(null)
+    const [name, setName] = useState(file.name)
 
     const renderDialogContent = () => {
+        if(!action) return null;
+        const { label, value} = action;
         return (
-            <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Are you absolutely sure?</DialogTitle>
-              <DialogDescription>
-                This action cannot be undone. This will permanently delete your account
-                and remove your data from our servers.
-              </DialogDescription>
+            <DialogContent className="shad-dialog button">
+            <DialogHeader className="flex flex-col gap-3">
+              <DialogTitle className="text-center capitalize text-light-100">{label}</DialogTitle>
+              {
+                value === "rename" && <Input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+              }
             </DialogHeader>
           </DialogContent>
         )
