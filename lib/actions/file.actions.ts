@@ -70,7 +70,7 @@ export const uploadFile = async ({ file, ownerId, accountId, path }: UploadProps
 
 
 
-export const CreateQueries = async (currentUser: Models.Document) => {
+export const CreateQueries = async (currentUser: Models.Document, types: string[], searchText: string, sort: string, limit?: number) => {
     const queries = [
         Query.or([
             Query.equal("owner", [currentUser.$id]),
@@ -78,17 +78,31 @@ export const CreateQueries = async (currentUser: Models.Document) => {
         ])
     ]
 
+    // this is for categoring the type like media, documents, others, images
+    if(types.length > 0) queries.push(Query.equal("type", types))
+    if(searchText) queries.push(Query.contains("name", searchText))  // used of getting the search item
+    if(limit) queries.push(Query.limit(limit))  // used for setting the limit for a specific page 
+
+
+
+    if(sort){
+        const [sortBy, orderBy] = sort.split("-");
+        queries.push(
+            orderBy === "asc" ? Query.orderAsc(sortBy) : Query.orderDesc(sortBy)
+        )
+    }
+
     return queries;
 }
 
 
-export const getFiles = async () => {
+export const getFiles = async ({ types = [], searchText="", sort="$createdAt-desc", limit}: GetFilesProps) => {
     const { databases } = await createAdminClient();
     try {
         const currentUser = await getCurrentUser();
         if(!currentUser) throw new Error("User not found");
 
-        const queries = await CreateQueries(currentUser);
+        const queries = await CreateQueries(currentUser, types, searchText, sort, limit);
         const files = await databases.listDocuments(
             appwriteConfig.databaseId, 
             appwriteConfig.filesCollectionId, 
@@ -146,6 +160,32 @@ export const updateFileUsers = async ({ fileId, emails, path}: UpdateFileUserPro
 
         revalidatePath(path)
         return parseStringify(UpdateFile)
+    } catch (error) {
+        handleError(error, "Failed to rename file")
+    }
+}
+
+
+
+// this one is for deleting the file 
+interface deleteFileProps {
+    fileId: string, 
+    buckedFileId: string,
+    path: string
+}
+export const deleteFile = async ({ fileId, buckedFileId, path}: deleteFileProps) => {
+    const { databases, storage } = await createAdminClient();
+    try {
+        const deleteFile = await databases.deleteDocument(
+            appwriteConfig.databaseId, 
+            appwriteConfig.filesCollectionId, 
+            fileId,
+        )
+
+        if(deleteFile) await storage.deleteFile(appwriteConfig.bucketId, buckedFileId)
+
+        revalidatePath(path)
+        return parseStringify({ status: "success"})
     } catch (error) {
         handleError(error, "Failed to rename file")
     }

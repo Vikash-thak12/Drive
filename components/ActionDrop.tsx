@@ -24,7 +24,7 @@ import { Models } from "node-appwrite"
 import { useState } from "react"
 import { Input } from "./ui/input"
 import { Button } from "./ui/button"
-import { renameFile, updateFileUsers } from "@/lib/actions/file.actions"
+import { deleteFile, renameFile, updateFileUsers } from "@/lib/actions/file.actions"
 import { usePathname } from "next/navigation"
 import { FileDetails, ShareInput } from "./ActionModalContent"
 
@@ -69,7 +69,7 @@ const ActionDrop = ({ file }: { file: Models.Document }) => {
         const actions = {
             rename: () => renameFile({fileId: file.$id, name, extension: file.extension, path}),
             share: () => updateFileUsers({fileId: file.$id, emails, path}),
-            delete: () => console.log("delete")
+            delete: () => deleteFile({ fileId: file.$id, buckedFileId: file.bucketField, path})
         };
 
         success = await actions[action.value as keyof typeof actions]()
@@ -78,10 +78,14 @@ const ActionDrop = ({ file }: { file: Models.Document }) => {
     }
 
     const handleRemove = async (email: string) => {
-        const updateEmails = emails.filter((e) => e !== email)  // it will remove the selected email 
-        const success = await updateFileUsers({ fileId: file.$id, emails: updateEmails, path})  // here this function is updated and the upper email is removed from the updateFileusers function 
-        if(success) setEmails(updateEmails)  // then the selected email will be omit out from the emails usestate
-        closeAllModals();
+        if(file.owner){
+            const updateEmails = emails.filter((e) => e !== email)  // it will remove the selected email 
+            const success = await updateFileUsers({ fileId: file.$id, emails: updateEmails, path})  // here this function is updated and the upper email is removed from the updateFileusers function 
+            if(success) setEmails(updateEmails)  // then the selected email will be omit out from the emails usestate
+            closeAllModals();
+        } else {
+            throw new Error("You are not the owner of this file and cann't remove this file")
+        }
     }
 
     const renderDialogContent = () => {
@@ -100,6 +104,11 @@ const ActionDrop = ({ file }: { file: Models.Document }) => {
                     {
                         value === "share" && <ShareInput file={file} onInputChange={setEmails} onRemove={handleRemove}  />
                     }
+                    {
+                        value === "delete" && (
+                            <p>Are you sure you want to delete <span className="text-red">{file.name} ?</span></p>
+                        )
+                    }
                 </DialogHeader>
                 {
                     ['rename', "share", 'delete'].includes(value) && (
@@ -107,7 +116,7 @@ const ActionDrop = ({ file }: { file: Models.Document }) => {
                             <Button onClick={closeAllModals}>
                                 Cancel
                             </Button>
-                            <Button onClick={handleAction}>
+                            <Button onClick={handleAction} className="bg-red">
                                 {isLoading ? (
                                     <Image src={"/assets/icons/loader.svg"} alt="Loader" width={24} height={24} className="animate-spin" />
                                 ) : (
