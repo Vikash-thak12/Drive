@@ -24,7 +24,7 @@ import { Models } from "node-appwrite"
 import { useState } from "react"
 import { Input } from "./ui/input"
 import { Button } from "./ui/button"
-import { renameFile } from "@/lib/actions/file.actions"
+import { renameFile, updateFileUsers } from "@/lib/actions/file.actions"
 import { usePathname } from "next/navigation"
 import { FileDetails, ShareInput } from "./ActionModalContent"
 
@@ -48,6 +48,8 @@ const ActionDrop = ({ file }: { file: Models.Document }) => {
 
     const path = usePathname();
 
+    console.log("The file of Action:", file)
+
 
     // This one is for cancel whatever is going on cancle button
     const closeAllModals = () => {
@@ -66,7 +68,7 @@ const ActionDrop = ({ file }: { file: Models.Document }) => {
         let success = false;
         const actions = {
             rename: () => renameFile({fileId: file.$id, name, extension: file.extension, path}),
-            share: () => console.log("share"),
+            share: () => updateFileUsers({fileId: file.$id, emails, path}),
             delete: () => console.log("delete")
         };
 
@@ -75,8 +77,11 @@ const ActionDrop = ({ file }: { file: Models.Document }) => {
         setIsLoading(false)
     }
 
-    const handleRemove = () => {
-
+    const handleRemove = async (email: string) => {
+        const updateEmails = emails.filter((e) => e !== email)  // it will remove the selected email 
+        const success = await updateFileUsers({ fileId: file.$id, emails: updateEmails, path})  // here this function is updated and the upper email is removed from the updateFileusers function 
+        if(success) setEmails(updateEmails)  // then the selected email will be omit out from the emails usestate
+        closeAllModals();
     }
 
     const renderDialogContent = () => {
