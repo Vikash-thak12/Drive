@@ -34,27 +34,25 @@ Follow these steps to set up and run the application locally:
 
     ```bash
     npm install
-
-4. **Start the development server**:
-
-    ```bash
-    npm run dev
-    ```
-
-5. **Set Up Environment Variables**:
+    
+4. **Set Up Environment Variables**:
 
    Create a new file named .env in the root of your project and add the following content:
 
    ```bash
-NEXT_PUBLIC_APPWRITE_ENDPOINT=
-NEXT_PUBLIC_APPWRITE_PROJECT=
-NEXT_PUBLIC_APPWRITE_DATABASE=
-NEXT_PUBLIC_APPWRITE_USERS_COLLECTION
-NEXT_PUBLIC_APPWRITE_FILES_COLLECTION
-NEXT_PUBLIC_APPWRITE_BUCKET="67587eb6
-NEXT_APPWRITE_KEY=
+   NEXT_PUBLIC_APPWRITE_ENDPOINT=
+   NEXT_PUBLIC_APPWRITE_PROJECT=
+   NEXT_PUBLIC_APPWRITE_DATABASE=
+   NEXT_PUBLIC_APPWRITE_USERS_COLLECTION
+   NEXT_PUBLIC_APPWRITE_FILES_COLLECTION
+   NEXT_PUBLIC_APPWRITE_BUCKET="67587eb6
+   NEXT_APPWRITE_KEY=
     ```
+5. **Start the development server**:
 
+    ```bash
+    npm run dev
+    ```
 6. **Access the app**:
 
 
