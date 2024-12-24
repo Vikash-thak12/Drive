@@ -122,3 +122,31 @@ export const renameFile = async ({ fileId, name, extension, path}: RenameFilePro
         handleError(error, "Failed to rename file")
     }
 }
+
+
+
+// this one is for updating the file's users or we can say updating the emails in this file 
+interface UpdateFileUserProps {
+    fileId: string, 
+    emails: string[],
+    path: string
+}
+
+export const updateFileUsers = async ({ fileId, emails, path}: UpdateFileUserProps) => {
+    const { databases } = await createAdminClient();
+    try {
+        const UpdateFile = await databases.updateDocument(
+            appwriteConfig.databaseId, 
+            appwriteConfig.filesCollectionId, 
+            fileId,
+            {
+                users: emails
+            }
+        )
+
+        revalidatePath(path)
+        return parseStringify(UpdateFile)
+    } catch (error) {
+        handleError(error, "Failed to rename file")
+    }
+}
