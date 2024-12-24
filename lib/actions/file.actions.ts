@@ -79,15 +79,18 @@ export const CreateQueries = async (currentUser: Models.Document, types: string[
     ]
 
     // this is for categoring the type like media, documents, others, images
-    if(queries.length > 0) queries.push(Query.equal("type", types))
+    if(types.length > 0) queries.push(Query.equal("type", types))
     if(searchText) queries.push(Query.contains("name", searchText))  // used of getting the search item
     if(limit) queries.push(Query.limit(limit))  // used for setting the limit for a specific page 
 
 
-    const [sortBy, orderBy] = sort.split("-");
-    queries.push(
-        orderBy === "asc" ? Query.orderAsc(sortBy) : Query.orderDesc(sortBy)
-    )
+
+    if(sort){
+        const [sortBy, orderBy] = sort.split("-");
+        queries.push(
+            orderBy === "asc" ? Query.orderAsc(sortBy) : Query.orderDesc(sortBy)
+        )
+    }
 
     return queries;
 }
