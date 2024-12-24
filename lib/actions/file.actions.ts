@@ -150,3 +150,29 @@ export const updateFileUsers = async ({ fileId, emails, path}: UpdateFileUserPro
         handleError(error, "Failed to rename file")
     }
 }
+
+
+
+// this one is for deleting the file 
+interface deleteFileProps {
+    fileId: string, 
+    buckedFileId: string,
+    path: string
+}
+export const deleteFile = async ({ fileId, buckedFileId, path}: deleteFileProps) => {
+    const { databases, storage } = await createAdminClient();
+    try {
+        const deleteFile = await databases.deleteDocument(
+            appwriteConfig.databaseId, 
+            appwriteConfig.filesCollectionId, 
+            fileId,
+        )
+
+        if(deleteFile) await storage.deleteFile(appwriteConfig.bucketId, buckedFileId)
+
+        revalidatePath(path)
+        return parseStringify({ status: "success"})
+    } catch (error) {
+        handleError(error, "Failed to rename file")
+    }
+}

@@ -14,7 +14,7 @@ const DynamicPage = async ({ params }: SearchParamProps) => {
   const { type } = await params;
 
   const files = await getFiles();
-  console.log("the files are", files)
+  // console.log("the files are", files)
 
   return (
     <div className='mx-auto flex w-full max-w-7xl flex-col items-center gap-8'>
