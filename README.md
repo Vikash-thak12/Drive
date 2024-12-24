@@ -45,7 +45,7 @@ Follow these steps to set up and run the application locally:
    NEXT_PUBLIC_APPWRITE_DATABASE=
    NEXT_PUBLIC_APPWRITE_USERS_COLLECTION
    NEXT_PUBLIC_APPWRITE_FILES_COLLECTION
-   NEXT_PUBLIC_APPWRITE_BUCKET="67587eb6
+   NEXT_PUBLIC_APPWRITE_BUCKET=
    NEXT_APPWRITE_KEY=
     ```
 5. **Start the development server**:
