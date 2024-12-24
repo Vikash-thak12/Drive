@@ -9,8 +9,14 @@ A **Google Drive** like application designed to offer a seamless experience for 
 ## ✨ Features
 
 - **File Management**: Upload, download, and manage files effortlessly with an intuitive UI.
-- **Search and Filter**:  Easily find files with advanced search and sorting options.
-- **Modern and Responsive UI**: A user-friendly interface optimized for all devices.
+- **Search and Filter**: Easily find files with advanced search and sorting options.
+- **Appwrite Integration**:  
+  - **Database Management**: Efficiently store and retrieve user files with Appwrite's database services.  
+  - **Storage**: Securely upload and manage files using Appwrite's storage feature.  
+  - **Serverless Functions**: Extend functionality with Appwrite’s custom serverless functions.  
+  - **Access Control**: Granular permission management for users and their files, allowing secure sharing and collaboration with specific users or groups.
+
+
 
 ---
 
