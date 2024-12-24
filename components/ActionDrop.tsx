@@ -48,7 +48,7 @@ const ActionDrop = ({ file }: { file: Models.Document }) => {
 
     const path = usePathname();
 
-    console.log("The file of Action:", file)
+    // console.log("The file of Action:", file)
 
 
     // This one is for cancel whatever is going on cancle button
