@@ -3,6 +3,7 @@ import Link from "next/link";
 import Thumbnail from "@/components/Thumbnail";
 import { convertFileSize } from "@/lib/utils";
 import FormattedDateTime from "./FormattedDateTime";
+import ActionDrop from "./ActionDrop";
 
 const Card = ({ file }: { file: Models.Document }) => {
   return (
@@ -17,7 +18,7 @@ const Card = ({ file }: { file: Models.Document }) => {
         />
 
         <div className="flex flex-col items-end justify-between">
-          ActionDrop
+          <ActionDrop file={file} />
           <p className="body-1">{convertFileSize(file.size)}</p>
         </div>
       </div>

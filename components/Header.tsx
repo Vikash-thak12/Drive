@@ -1,9 +1,9 @@
 import Image from 'next/image'
 import React from 'react'
 import { Button } from './ui/button'
-import Search from './Search'
 import FileUpload from './FileUpload'
 import { signOutUser } from '@/lib/actions/user.action'
+import Search from './Search'
 
 const Header = ({ userId, accountId}: { userId: string, accountId: string}) => {
   return (
